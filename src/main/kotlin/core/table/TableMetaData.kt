@@ -1,5 +1,6 @@
-package core
+package core.table
 
+import core.table.TableColumn
 import kotlin.reflect.KClass
 
 data class TableMetaData(

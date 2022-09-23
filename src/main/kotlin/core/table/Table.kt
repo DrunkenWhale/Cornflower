@@ -1,4 +1,4 @@
-package core
+package core.table
 
 class Table<T>(
     val metaData: TableMetaData
