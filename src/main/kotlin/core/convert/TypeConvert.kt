@@ -52,13 +52,13 @@ internal fun kParameterMappingToTableColumn(kParameter: KParameter): TableColumn
  *
  * */
 private fun typeMappingToSqlType(kType: KType): Int {
-    return when (val typeName = kType.javaType.javaClass.simpleName) {
-        "java.lang.Integer" -> INTEGER
-        "java.lang.Long" -> BIGINT
-        "java.lang.Double" -> DOUBLE
-        "java.lang.Float" -> FLOAT
-        "java.lang.Boolean" -> BOOLEAN
-        "java.lang.String" -> VARCHAR
+    return when (val typeName = kType.toString()) {
+        "kotlin.Int" -> INTEGER
+        "kotlin.Long" -> BIGINT
+        "kotlin.DOUBLE" -> DOUBLE
+        "kotlin.Float" -> FLOAT
+        "kotlin.Boolean" -> BOOLEAN
+        "kotlin.String" -> VARCHAR
         else -> throw TypeNotPresentException(typeName, null)
     }
 }
