@@ -1,9 +1,9 @@
 package core.convert
 
-import core.anno.constraint.Index
-import core.anno.constraint.Name
-import core.anno.constraint.PrimaryKey
-import core.anno.constraint.Unique
+import core.constraint.Index
+import core.constraint.Name
+import core.constraint.PrimaryKey
+import core.constraint.Unique
 import core.table.TableColumn
 import java.sql.Types.*
 import kotlin.reflect.KParameter
@@ -38,7 +38,6 @@ internal fun kParameterMappingToTableColumn(kParameter: KParameter): TableColumn
         name!!,
         index,
         type,
-        null,
         isNullable,
         isPrimaryKey,
         isUnique,
