@@ -12,6 +12,12 @@ import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.hasAnnotation
 import kotlin.reflect.jvm.javaType
 
+/**
+ * @param kParameter param in data class primary constructor
+ * @return a full TableColumn class
+ * @throws TypeNotPresentException if param not be defined in mapping rule
+ *
+ * */
 internal fun kParameterMappingToTableColumn(kParameter: KParameter): TableColumn {
     val name = if (kParameter.hasAnnotation<Name>()) {
         kParameter.findAnnotation<Name>()!!.name
