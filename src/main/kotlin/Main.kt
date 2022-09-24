@@ -1,19 +1,9 @@
-import logging.Log
-import java.io.Console
-import kotlin.reflect.full.primaryConstructor
-
-@Target(AnnotationTarget.VALUE_PARAMETER)
-annotation class C(val name: String)
-annotation class D
-data class Demo(
-    val name: String? = "114514",
-    val age: Int? = 1,
-    val a: Int? = 2,
-    val c: Int?,
-    val b: Int? = 14,
-)
+import org.sqlite.core.CoreResultSet
+import java.sql.DriverManager
 
 fun main(args: Array<String>) {
-    val clazz = Demo::class
-    val member = clazz.primaryConstructor!!.parameters[0].type
+    val conn = DriverManager.getConnection("jdbc:sqlite:test.db")
+    val s = conn.createStatement()
+    val resultSet = s.executeQuery("SELECT * FROM Student;")
+    println(resultSet.getString(1))
 }

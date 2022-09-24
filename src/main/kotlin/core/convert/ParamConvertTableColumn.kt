@@ -11,7 +11,10 @@ import kotlin.reflect.KType
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.hasAnnotation
 
+
 /**
+ * this function only will be used in generator `CREATE` SQL Sentence
+ *
  * @param kParameter param in data class primary constructor
  * @return a full TableColumn class
  * @throws TypeNotPresentException if param not be defined in mapping rule
@@ -62,14 +65,3 @@ private fun typeMappingToSqlType(kType: KType): Int {
     }
 }
 
-
-internal class TypeName {
-    companion object TypeName {
-        const val KtIntName = "kotlin.Int"
-        const val KtLongName = "kotlin.Long"
-        const val KtFloatName = "kotlin.Float"
-        const val ktDoubleName = "kotlin.Double"
-        const val KtBooleanName = "kotlin.Boolean"
-        const val KtStringName = "kotlin.String"
-    }
-}

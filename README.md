@@ -17,6 +17,7 @@ TODO List:
     - [ ] 从TupleList生成对象
 - [ ] 方言
     - [ ] 统一接口设计
+    - [ ] 注册到全局 
     - [ ] Sqlite 方言
     - [ ] MySQL 方言
 - [ ] 转换元数据至具体SQL
