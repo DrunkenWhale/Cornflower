@@ -2,8 +2,8 @@ package core.table
 
 import operator.QueryOperator
 
-class Table<T>(
-    val metaData: TableMetaData
+class Table<T : Any>(
+    val metaData: TableMetaData<T>
 ) {
 
     fun create() {
@@ -11,7 +11,7 @@ class Table<T>(
     }
 
     fun select(): QueryOperator<T> {
-        return QueryOperator(metaData.columns, metaData.dataClass)
+        return QueryOperator<T>(metaData.columns, metaData.dataClass)
     }
 
     fun insert() {

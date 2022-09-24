@@ -16,7 +16,7 @@ TODO List:
     - [x] 生成TupleList
     - [ ] 从TupleList生成对象
 - [ ] 方言
-    - [ ] 统一接口设计
+    - [x] 统一接口设计
     - [ ] 注册到全局
     - [ ] Sqlite 方言
     - [ ] MySQL 方言
