@@ -30,6 +30,7 @@
 ehthumbs.db
 Icon?
 Thumbs.db
+*.db
 
 # Editor Files #
 ################
