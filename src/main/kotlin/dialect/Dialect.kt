@@ -28,7 +28,14 @@ interface Dialect {
 
     fun generateDeleteSQL(tableName: String, columnList: List<TableColumn>): String
 
+    /**
+     * @return List<Int, SQL Enum Type, Value>
+     * */
     fun readResultSet(resultSet: ResultSet, columnList: List<TableColumn>): List<Triple<Int, Int, Any>>
 
+
+    fun registerToGlobal() {
+        GlobalDialect.dialect = this
+    }
 
 }

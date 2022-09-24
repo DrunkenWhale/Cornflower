@@ -1,5 +1,6 @@
 package engine
 
+import dialect.sqlite3.SqliteDialect
 import java.sql.Connection
 import java.sql.DriverManager
 import java.sql.ResultSet
@@ -46,13 +47,19 @@ object Database {
         if (openTransaction) {
             connection.autoCommit = false
         }
+        // register dialect
+        when (val dbName = connection.metaData.databaseProductName.uppercase()) {
+            "sqlite" -> SqliteDialect.registerToGlobal()
+//            "mysql" ->
+            else -> throw Exception("can't support dialect $dbName")
+        }
     }
 
     fun closeConnection() {
         connection.close()
     }
 
-    private fun statement(): Statement {
+    internal fun statement(): Statement {
         return connection.createStatement()
     }
 
