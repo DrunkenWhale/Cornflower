@@ -15,6 +15,7 @@ repositories {
 dependencies {
     testImplementation(kotlin("test"))
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.6.20")
+    implementation("org.xerial:sqlite-jdbc:3.39.3.0")
 
 }
 
