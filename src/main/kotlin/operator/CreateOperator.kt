@@ -8,8 +8,8 @@ import logging.Log
 import kotlin.reflect.KClass
 
 class CreateOperator(
-    val tableName: String,
-    val columnList: List<TableColumn>,
+    private val tableName: String,
+    private val columnList: List<TableColumn>,
 ) : Operator {
 
     override fun end(): Boolean {

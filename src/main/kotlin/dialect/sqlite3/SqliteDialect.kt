@@ -4,6 +4,7 @@ import java.sql.Types.*
 import core.table.TableColumn
 import dialect.Dialect
 import java.sql.ResultSet
+import kotlin.math.min
 
 
 object SqliteDialect : Dialect {
@@ -23,12 +24,16 @@ object SqliteDialect : Dialect {
 
         val primaryKeyBody = "PRIMARY KEY(`$primaryKeyName`)"
 
-        val uniqueKeyName = columnList
+
+        val temp = columnList
             .filter { it.isUnique }
             .fold("") { str, s -> "$str, `${s.name}`" }
-            .substring(2)
 
-        val uniqueKeyBody = "UNIQUE($uniqueKeyName)"
+        val uniqueKeyName = temp.substring(min(2, temp.length))
+
+        val uniqueKeyBody =
+            if (uniqueKeyName.isNotBlank()) "UNIQUE($uniqueKeyName)"
+            else ""
 
         // warning! can't support normal index!
         // only support unique now

@@ -7,9 +7,9 @@ import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
 class QueryOperator<T : Any>(
-    val tableName: String,
-    val columnList: List<TableColumn>,
-    val dataClass: KClass<T>
+    private val tableName: String,
+    private val columnList: List<TableColumn>,
+    private val dataClass: KClass<T>
 ) : Operator {
 
     fun where() {

@@ -48,7 +48,7 @@ object Database {
             connection.autoCommit = false
         }
         // register dialect
-        when (val dbName = connection.metaData.databaseProductName.uppercase()) {
+        when (val dbName = connection.metaData.databaseProductName.lowercase()) {
             "sqlite" -> SqliteDialect.registerToGlobal()
 //            "mysql" ->
             else -> throw Exception("can't support dialect $dbName")
