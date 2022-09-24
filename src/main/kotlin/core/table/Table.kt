@@ -11,7 +11,7 @@ class Table<T>(
     }
 
     fun select(): QueryOperator<T> {
-        return QueryOperator(metaData.columns)
+        return QueryOperator(metaData.columns, metaData.dataClass)
     }
 
     fun insert() {
