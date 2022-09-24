@@ -1,17 +1,19 @@
 package core.table
 
+import operator.CreateOperator
 import operator.QueryOperator
 
 class Table<T : Any>(
     val metaData: TableMetaData<T>
 ) {
 
-    fun create() {
-
+    // need test
+    fun create(): CreateOperator {
+        return CreateOperator(metaData.tableName, metaData.columns)
     }
 
     fun select(): QueryOperator<T> {
-        return QueryOperator<T>(metaData.columns, metaData.dataClass)
+        return QueryOperator(metaData.tableName, metaData.columns, metaData.dataClass)
     }
 
     fun insert() {
