@@ -10,7 +10,6 @@ import kotlin.reflect.KParameter
 import kotlin.reflect.KType
 import kotlin.reflect.full.findAnnotation
 import kotlin.reflect.full.hasAnnotation
-import kotlin.reflect.jvm.javaType
 
 /**
  * @param kParameter param in data class primary constructor
@@ -53,12 +52,24 @@ internal fun kParameterMappingToTableColumn(kParameter: KParameter): TableColumn
  * */
 private fun typeMappingToSqlType(kType: KType): Int {
     return when (val typeName = kType.toString()) {
-        "kotlin.Int" -> INTEGER
-        "kotlin.Long" -> BIGINT
-        "kotlin.DOUBLE" -> DOUBLE
-        "kotlin.Float" -> FLOAT
-        "kotlin.Boolean" -> BOOLEAN
-        "kotlin.String" -> VARCHAR
+        TypeName.KtIntName -> INTEGER
+        TypeName.KtLongName -> BIGINT
+        TypeName.ktDoubleName -> DOUBLE
+        TypeName.KtFloatName -> FLOAT
+        TypeName.KtBooleanName -> BOOLEAN
+        TypeName.KtStringName -> VARCHAR
         else -> throw TypeNotPresentException(typeName, null)
+    }
+}
+
+
+internal class TypeName {
+    companion object TypeName {
+        const val KtIntName = "kotlin.Int"
+        const val KtLongName = "kotlin.Long"
+        const val KtFloatName = "kotlin.Float"
+        const val ktDoubleName = "kotlin.Double"
+        const val KtBooleanName = "kotlin.Boolean"
+        const val KtStringName = "kotlin.String"
     }
 }
