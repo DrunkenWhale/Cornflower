@@ -3,6 +3,7 @@ package dialect.sqlite3
 import java.sql.Types.*
 import core.table.TableColumn
 import dialect.Dialect
+import operator.*
 import java.sql.ResultSet
 import kotlin.math.min
 
@@ -11,7 +12,10 @@ object SqliteDialect : Dialect {
     //TODO
     //write test to this object
 
-    override fun generateCreateSQL(tableName: String, columnList: List<TableColumn>): String {
+    override fun generateCreateSQL(op: CreateOperator): String {
+
+        val columnList = op.columnList
+        val tableName = op.tableName
 
         val columnBody: String = columnList
             .map { column -> stringifyTableColumn(column) }
@@ -41,25 +45,24 @@ object SqliteDialect : Dialect {
         return "CREATE TABLE `$tableName`($columnBody $primaryKeyBody $uniqueKeyBody);"
     }
 
-    override fun generateQuerySQL(tableName: String, columnList: List<TableColumn>): String {
+    override fun generateQuerySQL(op: QueryOperator<*>): String {
+        TODO("Not yet implemented")
+
+    }
+
+    override fun generateInsertSQL(op: InsertOperator): String {
         TODO("Not yet implemented")
     }
 
-    override fun generateInsertSQL(tableName: String, columnList: List<TableColumn>, values: List<Any>): String {
+    override fun generateBatchInsertSQL(op: InsertOperator): String {
         TODO("Not yet implemented")
     }
 
-    override fun generateBatchInsertSQL(
-        tableName: String, columnList: List<TableColumn>, values: List<List<Any>>
-    ): String {
+    override fun generateUpdateSQL(op: UpdateOperator): String {
         TODO("Not yet implemented")
     }
 
-    override fun generateUpdateSQL(tableName: String, columnList: List<TableColumn>, values: List<Any>): String {
-        TODO("Not yet implemented")
-    }
-
-    override fun generateDeleteSQL(tableName: String, columnList: List<TableColumn>): String {
+    override fun generateDeleteSQL(op: DeleteOperator): String {
         TODO("Not yet implemented")
     }
 

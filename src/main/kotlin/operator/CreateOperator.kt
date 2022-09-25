@@ -8,12 +8,12 @@ import logging.Log
 import kotlin.reflect.KClass
 
 class CreateOperator(
-    private val tableName: String,
-    private val columnList: List<TableColumn>,
+    internal val tableName: String,
+    internal val columnList: List<TableColumn>,
 ) : Operator {
 
     override fun end(): Boolean {
-        val sql = GlobalDialect.dialect.generateCreateSQL(tableName, columnList)
+        val sql = GlobalDialect.dialect.generateCreateSQL(this)
         GlobalLogInstance.log.infoLog(sql)
         return Database.execute(sql)
     }

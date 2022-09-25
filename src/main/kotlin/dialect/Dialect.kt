@@ -1,6 +1,7 @@
 package dialect
 
 import core.table.TableColumn
+import operator.*
 import java.sql.ResultSet
 
 interface Dialect {
@@ -9,24 +10,24 @@ interface Dialect {
      *
      * from table's MetaData to `CREATE` SQL Sentence
      */
-    fun generateCreateSQL(tableName: String, columnList: List<TableColumn>): String
+    fun generateCreateSQL(op: CreateOperator): String
 
     /**
      *
      * */
-    fun generateQuerySQL(tableName: String, columnList: List<TableColumn>): String
+    fun generateQuerySQL(op: QueryOperator<*>): String
 
     /**
      *  @param columnList table's metadata
      *  @param values column values that have the same order with columnList
      * */
-    fun generateInsertSQL(tableName: String, columnList: List<TableColumn>, values: List<Any>): String
+    fun generateInsertSQL(op: InsertOperator): String
 
-    fun generateBatchInsertSQL(tableName: String, columnList: List<TableColumn>, values: List<List<Any>>): String
+    fun generateBatchInsertSQL(op: InsertOperator): String
 
-    fun generateUpdateSQL(tableName: String, columnList: List<TableColumn>, values: List<Any>): String
+    fun generateUpdateSQL(op: UpdateOperator): String
 
-    fun generateDeleteSQL(tableName: String, columnList: List<TableColumn>): String
+    fun generateDeleteSQL(op: DeleteOperator): String
 
     /**
      * @return List<Int, SQL Enum Type, Value>

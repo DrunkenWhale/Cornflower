@@ -5,9 +5,9 @@ import core.constraint.PrimaryKey
 import core.constraint.Unique
 import core.table.TableColumn
 import engine.Database
+import operator.CreateOperator
 import org.junit.jupiter.api.Test
 import transaction.Transaction
-
 
 
 class TableTest {
@@ -50,8 +50,10 @@ class TableTest {
         val t = table(Student::class)
         assert(
             dialect.sqlite3.SqliteDialect.generateCreateSQL(
-                t.metaData.tableName,
-                t.metaData.columns
+                CreateOperator(
+                    t.metaData.tableName,
+                    t.metaData.columns
+                )
             ) == "CREATE TABLE `Student`( " +
                     "`name` VARCHAR(255) NOT NULL," +
                     " `age` INT NOT NULL, " +
