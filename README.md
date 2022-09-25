@@ -19,10 +19,19 @@ TODO List:
     - [x] 统一接口设计
     - [ ] 注册到全局
     - [ ] Sqlite 方言
+        - [x] 生成 `CREATE` 语句
+        - [ ] 生成 `INSERT` 语句
+        - [ ] 生成 `QUERY` 语句
+        - [ ] 生成 `UPDATE` 语句
+        - [ ] 生成 `DELETE` 语句
     - [ ] MySQL 方言
 - [ ] 转换元数据至具体SQL
-    - [ ] 转换规则
-    - [ ] 调用方言接口交互数据库
+    - [x] CreateOperator
+    - [ ] InsertOperator
+    - [ ] QueryOperator
+    - [ ] DeleteOperator
+    - [ ] JoinOperator
+    - [ ] 编写 Condition 以生成查询子句
 - [ ] hook
     - [ ] 埋下挂载点
     - [ ] 实现注册

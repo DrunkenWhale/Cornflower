@@ -7,12 +7,16 @@ import kotlin.reflect.full.primaryConstructor
 //    val s = conn.createStatement()
 //    println(conn.metaData.databaseProductName)
 //}
-
+//
 data class Student(val name: String, val age: Int, val gender: Boolean)
+//fun main() {
+//    val constructor = Student::class.primaryConstructor!!
+//
+//    val a = constructor.call("114514" as Any, 1919810 as Any, true as Any)
+//    println(a)
+//}
 
 fun main() {
-    val constructor = Student::class.primaryConstructor!!
+    val l = { s: Student -> s.age }
 
-    val a = constructor.call("114514" as Any, 1919810 as Any, true as Any)
-    println(a)
 }
