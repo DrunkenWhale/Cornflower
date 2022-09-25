@@ -2,13 +2,17 @@ package operator
 
 class InsertOperator<T> : Operator {
 
-//    fun add(data: T): InsertOperator<T> {
-//
-//    }
-//
-//    fun add(dataList: List<T>): InsertOperator<T> {
-//
-//    }
+    private val list: MutableList<T> = mutableListOf()
+
+    fun add(data: T): InsertOperator<T> {
+        list.add(data)
+        return this
+    }
+
+    fun add(dataList: List<T>): InsertOperator<T> {
+        list.addAll(dataList)
+        return this
+    }
 
     override fun end(): Boolean {
         TODO("Not yet implemented")

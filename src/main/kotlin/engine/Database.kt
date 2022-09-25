@@ -3,6 +3,7 @@ package engine
 import dialect.sqlite3.SqliteDialect
 import java.sql.Connection
 import java.sql.DriverManager
+import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.SQLException
 import java.sql.Statement
@@ -56,6 +57,10 @@ object Database {
 
     internal fun statement(): Statement {
         return connection.createStatement()
+    }
+
+    internal fun preparedStatement(sql: String): PreparedStatement {
+        return connection.prepareStatement(sql)
     }
 
     internal fun execute(sql: String): Boolean {
