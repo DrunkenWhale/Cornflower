@@ -35,18 +35,13 @@ object Database {
         connectUrl: String,
         user: String? = null,
         password: String? = null,
-        driver: String? = null,
-        openTransaction: Boolean = true
+        driver: String? = null
     ) {
 
         if (driver != null && driver.isNotBlank()) {
             Class.forName(driver)
         }
-
         connection = DriverManager.getConnection(connectUrl, user, password)
-        if (openTransaction) {
-            connection.autoCommit = false
-        }
         // register dialect
         when (val dbName = connection.metaData.databaseProductName.lowercase()) {
             "sqlite" -> SqliteDialect.registerToGlobal()
@@ -71,6 +66,10 @@ object Database {
         return statement().executeQuery(sql)
     }
 
+    internal fun startTransaction() {
+        connection.autoCommit = false
+    }
+
     internal fun endTransaction() {
         // open transaction
         if (!connection.autoCommit) {
@@ -80,6 +79,7 @@ object Database {
                 e.printStackTrace()
                 connection.rollback()
             }
+            connection.autoCommit = true
         }
     }
 }

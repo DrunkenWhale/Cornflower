@@ -3,6 +3,7 @@ package core
 import core.constraint.PrimaryKey
 import core.table.TableColumn
 import engine.Database
+import transaction.Transaction
 import kotlin.test.Test
 
 
@@ -32,7 +33,9 @@ class TableTest {
         data class Student(@PrimaryKey val name: String, val age: Int, val gender: Boolean)
 
         val t = table(Student::class)
-        println(t.create().end())
+        Transaction {
+            t.create().end()
+        }
     }
 }
 
