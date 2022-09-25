@@ -1,8 +1,18 @@
 package operator
 
-class InsertOperator<T> : Operator {
+import core.table.TableColumn
+import dialect.GlobalDialect
+import engine.Database
+import logging.GlobalLogInstance
+import kotlin.reflect.full.declaredFunctions
 
-    private val list: MutableList<T> = mutableListOf()
+class InsertOperator<T : Any>(
+    internal val tableName: String,
+    internal val columnList: List<TableColumn>,
+) : Operator {
+
+    internal val list: MutableList<T> = mutableListOf()
+    internal lateinit var dataList: List<List<Any>>
 
     fun add(data: T): InsertOperator<T> {
         list.add(data)
@@ -15,6 +25,21 @@ class InsertOperator<T> : Operator {
     }
 
     override fun end(): Boolean {
-        TODO("Not yet implemented")
+        this.dataList = list.map { callDataClassComponentNMethodGetData(it) }
+        val sql = GlobalDialect.dialect.generateInsertSQL(this)
+        GlobalLogInstance.log.infoLog(sql)
+        return Database.execute(sql)
     }
+
+    /**
+     * data muse be data class instance!
+     * convert a data class to List<Any>
+     * */
+    private fun callDataClassComponentNMethodGetData(data: T): List<Any> {
+        return data::class
+            .declaredFunctions
+            .filter { it.name.contains("component") }
+            .map { it.call(data)!! }
+    }
+    //stu::class.declaredFunctions.filter { it.name.contains("component") }.map{it.call(stu)}
 }

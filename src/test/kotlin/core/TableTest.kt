@@ -48,19 +48,13 @@ class TableTest {
         )
 
         val t = table(Student::class)
-        dialect.sqlite3.SqliteDialect.generateCreateSQL(
-            CreateOperator(
-                t.metaData.tableName,
-                t.metaData.columns
-            )
-        ).toString()
         assert(
             dialect.sqlite3.SqliteDialect.generateCreateSQL(
                 CreateOperator(
                     t.metaData.tableName,
                     t.metaData.columns
                 )
-            ).toString() == "CREATE TABLE `Student`( `name` VARCHAR(255) NOT NULL, `age` INT NOT NULL, `sex` BOOLEAN NOT NULL, PRIMARY KEY(`name`) UNIQUE(`age`, `sex`)); "
+            ) == "CREATE TABLE `Student`( `name` VARCHAR(255) NOT NULL, `age` INT NOT NULL, `sex` BOOLEAN NOT NULL, PRIMARY KEY(`name`) UNIQUE(`age`, `sex`)); "
         )
 
     }

@@ -3,6 +3,7 @@ package dialect.sqlite3
 import java.sql.Types.*
 import core.table.TableColumn
 import dialect.Dialect
+import engine.Database
 import operator.*
 import java.sql.ResultSet
 import kotlin.math.min
@@ -50,12 +51,31 @@ object SqliteDialect : Dialect {
 
     }
 
-    override fun <T> generateInsertSQL(op: InsertOperator<T>): String {
-        TODO("Not yet implemented")
-    }
-
-    override fun <T> generateBatchInsertSQL(op: InsertOperator<T>): String {
-        TODO("Not yet implemented")
+    override fun <T : Any> generateInsertSQL(op: InsertOperator<T>): String {
+        val tupleString = List(op.columnList.size) { "?" }.toString()
+        val tempListString = List(op.list.size) { tupleString }
+            .toString()
+            .replace("[", "(")
+            .replace("]", ")")
+        val tupleListString = tempListString.substring(1, tempListString.length - 1)
+        val sqlTemplate = "INSERT INTO `${op.tableName}` VALUES $tupleListString"
+        val statement = Database.preparedStatement(sqlTemplate)
+        var count = 1
+        op.dataList.forEach { list ->
+            list.forEach { data ->
+                when (val typeName = data.javaClass.simpleName) {
+                    "Integer" -> statement.setInt(count, data as Int)
+                    "Long" -> statement.setLong(count, data as Long)
+                    "Double" -> statement.setDouble(count, data as Double)
+                    "Float" -> statement.setFloat(count, data as Float)
+                    "Boolean" -> statement.setBoolean(count, data as Boolean)
+                    "String" -> statement.setString(count, data as String)
+                    else -> throw TypeNotPresentException(typeName, null)
+                }
+                ++count
+            }
+        }
+        return statement.toString()
     }
 
     override fun generateUpdateSQL(op: UpdateOperator): String {
@@ -69,6 +89,7 @@ object SqliteDialect : Dialect {
     override fun readResultSet(resultSet: ResultSet, columnList: List<TableColumn>): List<Triple<Int, Int, Any>> {
         TODO("Not yet implemented")
     }
+
 
     private fun sqlTypeMappingToSqliteType(sqlType: Int): String = when (sqlType) {
         INTEGER -> "INT"

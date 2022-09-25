@@ -17,6 +17,6 @@ data class Student(val name: String, val age: Int, val gender: Boolean)
 //}
 
 fun main() {
-    val l = { s: Student -> s.age }
+    val stu = Student("野兽先辈", 114514, true)
 
 }
