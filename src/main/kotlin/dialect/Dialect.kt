@@ -21,9 +21,9 @@ interface Dialect {
      *  @param columnList table's metadata
      *  @param values column values that have the same order with columnList
      * */
-    fun generateInsertSQL(op: InsertOperator): String
+    fun <T> generateInsertSQL(op: InsertOperator<T>): String
 
-    fun generateBatchInsertSQL(op: InsertOperator): String
+    fun <T> generateBatchInsertSQL(op: InsertOperator<T>): String
 
     fun generateUpdateSQL(op: UpdateOperator): String
 

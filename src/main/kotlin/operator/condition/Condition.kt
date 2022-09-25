@@ -1,6 +1,9 @@
 package operator.condition
 
-/** SQL sub sentence
+/**
+ * Suspension! use user's string instead!
+ *
+ * SQL sub sentence
  * condition
  * such as
  * LIKE, =, ASC

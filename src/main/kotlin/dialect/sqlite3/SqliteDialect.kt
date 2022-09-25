@@ -50,11 +50,11 @@ object SqliteDialect : Dialect {
 
     }
 
-    override fun generateInsertSQL(op: InsertOperator): String {
+    override fun <T> generateInsertSQL(op: InsertOperator<T>): String {
         TODO("Not yet implemented")
     }
 
-    override fun generateBatchInsertSQL(op: InsertOperator): String {
+    override fun <T> generateBatchInsertSQL(op: InsertOperator<T>): String {
         TODO("Not yet implemented")
     }
 
