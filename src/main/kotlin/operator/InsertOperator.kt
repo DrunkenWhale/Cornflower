@@ -24,11 +24,11 @@ class InsertOperator<T : Any>(
         return this
     }
 
-    override fun end(): Boolean {
+    override fun end() {
         this.dataList = list.map { callDataClassComponentNMethodGetData(it) }
-        val sql = GlobalDialect.dialect.generateInsertSQL(this)
-        GlobalLogInstance.log.infoLog(sql)
-        return Database.execute(sql)
+        val statement = GlobalDialect.dialect.generateInsertSQL(this)
+        GlobalLogInstance.log.infoPrepareStatement(statement)
+        Database.executePrepareStatement(statement)
     }
 
     /**

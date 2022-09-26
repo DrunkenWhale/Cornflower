@@ -1,7 +1,7 @@
 package operator
 
 class DeleteOperator:Operator {
-    override fun end(): Boolean {
+    override fun end() {
         TODO("Not yet implemented")
     }
 }

@@ -5,21 +5,24 @@ import core.constraint.PrimaryKey
 import core.constraint.Unique
 import core.table.TableColumn
 import engine.Database
-import operator.CreateOperator
-import org.junit.jupiter.api.Test
 import transaction.Transaction
-
+import java.io.File
+import java.nio.file.Files
+import java.nio.file.Path
+import kotlin.test.Test
 
 class TableTest {
+
+    private val sqliteDatabaseName = "test.db"
+
+    data class Student(
+        @PrimaryKey val name: String, @Unique val age: Int, @Name("sex") val gender: Boolean
+    )
+
     @Test
     fun testConvert() {
-        data class Student(@PrimaryKey val name: String, val age: Int, val gender: Boolean)
-
         val t = table(Student::class)
         assert(t.metaData.tableName == "Student")
-        assert(
-            t.metaData.dataClass.toString() == "class core.TableTest\$testConvert\$Student"
-        )
         assert(
             t.metaData.columns[0] == TableColumn(
                 "name", 0, java.sql.Types.VARCHAR, isNullable = false, isPrimaryKey = true
@@ -29,10 +32,7 @@ class TableTest {
 
     @Test
     fun testCreate() {
-        Database.connect("jdbc:sqlite:test.db")
-        data class Student(
-            @PrimaryKey val name: String, @Unique val age: Int, @Unique @Name("sex") val gender: Boolean
-        )
+        Database.connect("jdbc:sqlite:$sqliteDatabaseName")
 
         val t = table(Student::class)
         Transaction {
@@ -40,23 +40,29 @@ class TableTest {
         }
     }
 
+
     @Test
-    fun testCreateSentence() {
-        Database.connect("jdbc:sqlite:test.db")
-        data class Student(
-            @PrimaryKey val name: String, @Unique val age: Int, @Name("sex") val gender: Boolean
-        )
+    fun testInsert() {
+        Database.connect("jdbc:sqlite:$sqliteDatabaseName")
 
         val t = table(Student::class)
-        assert(
-            dialect.sqlite3.SqliteDialect.generateCreateSQL(
-                CreateOperator(
-                    t.metaData.tableName,
-                    t.metaData.columns
+        Transaction {
+            t
+                .insert()
+                .add(
+                    listOf(
+                        Student("下北泽", 1919810, true),
+                        Student("野兽先辈", 1145104, true),
+                        Student("昏睡红茶", 11451344, true)
+                    )
                 )
-            ) == "CREATE TABLE `Student`( `name` VARCHAR(255) NOT NULL, `age` INT NOT NULL, `sex` BOOLEAN NOT NULL, PRIMARY KEY(`name`) UNIQUE(`age`, `sex`)); "
-        )
-
+        }
     }
+
+
+    fun removeTestDB() {
+        Files.delete(Path.of(System.getProperty("user.dir") + File.separator + "test.db"))
+    }
+
 }
 

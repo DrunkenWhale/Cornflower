@@ -1,5 +1,6 @@
 package logging
 
+import java.sql.PreparedStatement
 import java.sql.Timestamp
 
 /**
@@ -55,6 +56,9 @@ class Log(
         log("$infoColor [INFO]   $message$reset$reset", LogLevel.INFO)
     }
 
+    fun infoPrepareStatement(statement: PreparedStatement) {
+        infoLog(statement.toString().split("parameter")[0])
+    }
 
     companion object Log {
         const val infoColor = "\u001b[34m"

@@ -1,6 +1,7 @@
 package core.table
 
 import operator.CreateOperator
+import operator.InsertOperator
 import operator.QueryOperator
 
 class Table<T : Any>(
@@ -16,8 +17,8 @@ class Table<T : Any>(
         return QueryOperator(metaData.tableName, metaData.columns, metaData.dataClass)
     }
 
-    fun insert() {
-
+    fun insert(): InsertOperator<T> {
+        return InsertOperator(metaData.tableName, metaData.columns)
     }
 
     fun update() {

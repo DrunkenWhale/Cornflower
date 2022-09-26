@@ -44,7 +44,7 @@ class QueryOperator<T : Any>(
         return list.toList()
     }
 
-    override fun end(): Boolean {
+    override fun end() {
         TODO("Not yet implemented")
     }
 }

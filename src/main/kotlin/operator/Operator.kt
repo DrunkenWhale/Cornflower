@@ -1,5 +1,5 @@
 package operator
 
 interface Operator {
-    fun end(): Boolean
+    fun end(): Unit
 }

@@ -71,6 +71,10 @@ object Database {
         return statement().executeQuery(sql)
     }
 
+    internal fun executePrepareStatement(preparedStatement: PreparedStatement) {
+        preparedStatement.execute()
+    }
+
     internal fun startTransaction() {
         connection.autoCommit = false
     }
