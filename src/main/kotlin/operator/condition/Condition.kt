@@ -8,5 +8,8 @@ package operator.condition
  * such as
  * LIKE, =, ASC
  */
-class Condition {
+object Condition {
+    infix fun String.eq(condition: String): String {
+        return "$this=$condition"
+    }
 }

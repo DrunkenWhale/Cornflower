@@ -1,5 +1,6 @@
 import org.sqlite.core.CoreResultSet
 import java.sql.DriverManager
+import kotlin.reflect.full.memberFunctions
 import kotlin.reflect.full.primaryConstructor
 
 //fun main(args: Array<String>) {
@@ -18,5 +19,9 @@ data class Student(val name: String, val age: Int, val gender: Boolean)
 
 fun main() {
     val stu = Student("野兽先辈", 114514, true)
+    test { stu::class }
+}
+
+fun test(lambda: (Student) -> Unit) {
 
 }

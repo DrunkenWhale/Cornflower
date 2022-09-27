@@ -71,6 +71,10 @@ object Database {
         return statement().executeQuery(sql)
     }
 
+    internal fun executePrepareStatementQuery(preparedStatement: PreparedStatement): ResultSet {
+        return preparedStatement.executeQuery()!!
+    }
+
     internal fun executePrepareStatement(preparedStatement: PreparedStatement) {
         preparedStatement.execute()
     }

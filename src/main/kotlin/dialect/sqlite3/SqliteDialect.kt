@@ -49,8 +49,32 @@ object SqliteDialect : Dialect {
     }
 
     override fun generateQuerySQL(op: QueryOperator<*>): PreparedStatement {
-        TODO("Not yet implemented")
 
+        val whereSubSentence =
+            if (op.whereCondition.isNotBlank()) {
+                "WHERE ${op.whereCondition}"
+            } else {
+                ""
+            }
+
+        val groupBySubSentence =
+            if (op.groupByColumnName.isNotBlank()) {
+                "GROUP BY `${op.tableName}`.`${op.groupByColumnName}`"
+            } else {
+                ""
+            }
+
+        val orderBySubSentence =
+            if (op.orderByColumnName.isNotBlank()) {
+                "ORDER BY `${op.tableName}`.`${op.orderByColumnName}`"
+            } else {
+                ""
+            }
+
+        val ascOrDesc = op.ascOrDesc
+
+        val sql = "SELECT * FROM `${op.tableName}` $whereSubSentence $groupBySubSentence $orderBySubSentence $ascOrDesc"
+        return Database.preparedStatement(sql)
     }
 
     override fun <T : Any> generateInsertSQL(op: InsertOperator<T>): PreparedStatement {

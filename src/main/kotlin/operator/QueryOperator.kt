@@ -7,33 +7,44 @@ import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
 class QueryOperator<T : Any>(
-    private val tableName: String,
-    private val columnList: List<TableColumn>,
-    private val dataClass: KClass<T>
+    internal val tableName: String,
+    internal val columnList: List<TableColumn>,
+    internal val dataClass: KClass<T>
 ) : Operator {
 
-    fun where() {
+    internal var whereCondition: String = ""
+    internal var ascOrDesc: String = ""
+    internal var orderByColumnName: String = ""
+    internal var groupByColumnName: String = ""
 
+    fun where(condition: String): QueryOperator<T> {
+        whereCondition = condition
+        return this
     }
 
-    fun groupBy() {
-
+    fun groupBy(column: String): QueryOperator<T> {
+        groupByColumnName = column
+        return this
     }
+
+    fun orderBy(column: String): QueryOperator<T> {
+        orderByColumnName = column
+        return this
+    }
+
 
     fun asc() {
-
+        ascOrDesc = "ASC"
     }
 
     fun desc() {
-
+        ascOrDesc = "DESC"
     }
 
     fun res(): List<T> {
 
-        val sql = ""
-        //TODO replace
-
-        val resultSet = Database.executeQuery(sql)!!
+        val statement = GlobalDialect.dialect.generateQuerySQL(this)
+        val resultSet = Database.executePrepareStatementQuery(statement)
 
         val list = mutableListOf<T>()
         while (resultSet.next()) {
@@ -45,6 +56,9 @@ class QueryOperator<T : Any>(
     }
 
     override fun end() {
-        TODO("Not yet implemented")
+        val statement = GlobalDialect.dialect.generateQuerySQL(this)
+        Database.executePrepareStatement(statement)
     }
+
+
 }
