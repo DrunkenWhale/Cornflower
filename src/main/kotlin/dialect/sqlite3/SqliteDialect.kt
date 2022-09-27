@@ -119,7 +119,17 @@ object SqliteDialect : Dialect {
         while (resultSet.next()) {
             val list = mutableListOf<Any>()
             for (i in 1..columnList.size) {
-                list.add(resultSet.getObject(i))
+                val obj =
+                    when (columnList[i - 1].type) {
+                        INTEGER -> resultSet.getInt(i)
+                        BIGINT -> resultSet.getLong(i)
+                        DOUBLE -> resultSet.getDouble(i)
+                        FLOAT -> resultSet.getFloat(i)
+                        BOOLEAN -> resultSet.getBoolean(i)
+                        VARCHAR -> resultSet.getString(i)
+                        else -> throw TypeNotPresentException(columnList[i - 1].type.toString(), null)
+                    }
+                list.add(obj)
             }
             ans.add(list)
         }
@@ -132,8 +142,8 @@ object SqliteDialect : Dialect {
         DOUBLE -> "DOUBLE"
         FLOAT -> "FLOAT"
         BOOLEAN -> "BOOLEAN"
-        // TODO add annotation to ensure TEXT type can be used
         VARCHAR -> "VARCHAR(255)"
+        // TODO add annotation to ensure TEXT type can be used
         else -> throw TypeNotPresentException(sqlType.toString(), null)
     }
 

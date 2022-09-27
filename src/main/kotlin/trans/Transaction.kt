@@ -1,4 +1,4 @@
-package transaction
+package trans
 
 import engine.Database
 
@@ -17,6 +17,9 @@ import engine.Database
  * ```
  *
  * */
+
+typealias transaction = Transaction
+
 class Transaction(op: () -> Unit) {
     init {
         Database.startTransaction()

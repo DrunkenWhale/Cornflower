@@ -3,6 +3,7 @@ package operator
 import core.table.TableColumn
 import dialect.GlobalDialect
 import engine.Database
+import logging.GlobalLogInstance
 import kotlin.reflect.KClass
 import kotlin.reflect.full.primaryConstructor
 
@@ -45,9 +46,9 @@ class QueryOperator<T : Any>(
 
         val statement = GlobalDialect.dialect.generateQuerySQL(this)
         val resultSet = Database.executePrepareStatementQuery(statement)
-
+        GlobalLogInstance.log.infoPrepareStatement(statement)
         val list = GlobalDialect.dialect.readResultSet(resultSet, columnList).map {
-            dataClass.primaryConstructor!!.call(it)
+            dataClass.primaryConstructor!!.call(*it.toTypedArray())
         }
         return list
     }

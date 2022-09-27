@@ -16,12 +16,3 @@ data class Student(val name: String, val age: Int, val gender: Boolean)
 //    val a = constructor.call("114514" as Any, 1919810 as Any, true as Any)
 //    println(a)
 //}
-
-fun main() {
-    val stu = Student("野兽先辈", 114514, true)
-    test { stu::class }
-}
-
-fun test(lambda: (Student) -> Unit) {
-
-}

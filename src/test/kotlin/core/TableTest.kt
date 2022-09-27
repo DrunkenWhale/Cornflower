@@ -5,7 +5,8 @@ import core.constraint.PrimaryKey
 import core.constraint.Unique
 import core.table.TableColumn
 import engine.Database
-import transaction.Transaction
+import trans.Transaction
+import trans.transaction
 import java.io.File
 import java.nio.file.Files
 import java.nio.file.Path
@@ -47,16 +48,34 @@ class TableTest {
 
         val t = table(Student::class)
         Transaction {
-            t
-                .insert()
-                .add(
-                    listOf(
-                        Student("下北泽", 1919810, true),
-                        Student("野兽先辈", 1145104, true),
-                        Student("昏睡红茶", 11451344, true)
-                    )
+            t.insert().add(
+                listOf(
+                    Student("下北泽", 1919810, true), Student("野兽先辈", 1145104, true), Student("昏睡红茶", 11451344, true)
                 )
+            )
         }
+    }
+
+    @Test
+    fun testQuery() {
+        Database.connect("jdbc:sqlite:$sqliteDatabaseName")
+
+        val t = table(Student::class)
+        transaction {
+
+            val list = listOf(
+                Student("下北泽", 1919810, true), Student("野兽先辈", 1145104, true), Student("昏睡红茶", 11451344, true)
+            )
+
+            t.create().end()
+
+            t.insert().add(list).end()
+
+            val ans = t.select().res()
+            assert(ans == list)
+
+        }
+
     }
 
 
