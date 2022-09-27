@@ -112,16 +112,18 @@ object SqliteDialect : Dialect {
         TODO("Not yet implemented")
     }
 
-    override fun readResultSet(resultSet: ResultSet, columnList: List<TableColumn>): List<Triple<Int, Int, Any>> {
+    override fun readResultSet(resultSet: ResultSet, columnList: List<TableColumn>): List<List<Any>> {
 
-        val ans = mutableListOf<Triple<Int, Int, Any>>()
+        val ans = mutableListOf<List<Any>>()
 
         while (resultSet.next()) {
-            for (i in 1..columnList.size){
-
+            val list = mutableListOf<Any>()
+            for (i in 1..columnList.size) {
+                list.add(resultSet.getObject(i))
             }
+            ans.add(list)
         }
-
+        return ans
     }
 
     private fun sqlTypeMappingToSqliteType(sqlType: Int): String = when (sqlType) {
