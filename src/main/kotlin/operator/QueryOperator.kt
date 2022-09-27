@@ -46,13 +46,10 @@ class QueryOperator<T : Any>(
         val statement = GlobalDialect.dialect.generateQuerySQL(this)
         val resultSet = Database.executePrepareStatementQuery(statement)
 
-        val list = mutableListOf<T>()
-        while (resultSet.next()) {
-            val tripleList = GlobalDialect.dialect.readResultSet(resultSet, columnList)
-            val data = dataClass.primaryConstructor!!.call(tripleList.map { it.third })
-            list.add(data)
+        val list = GlobalDialect.dialect.readResultSet(resultSet, columnList).map {
+            dataClass.primaryConstructor!!.call(it)
         }
-        return list.toList()
+        return list
     }
 
     override fun end() {

@@ -24,7 +24,7 @@ interface Dialect {
     /**
      * @return List<Int, SQL Enum Type, Value>
      * */
-    fun readResultSet(resultSet: ResultSet, columnList: List<TableColumn>): List<Triple<Int, Int, Any>>
+    fun readResultSet(resultSet: ResultSet, columnList: List<TableColumn>): List<List<Any>>
 
 
     fun registerToGlobal() {
