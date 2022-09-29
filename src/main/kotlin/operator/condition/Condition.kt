@@ -9,7 +9,10 @@ package operator.condition
  * LIKE, =, ASC
  */
 object Condition {
-    infix fun String.eq(condition: String): String {
+    infix fun String.eq(condition: Any): String {
+        if (condition is String){
+            return "$this='$condition'"
+        }
         return "$this=$condition"
     }
 }

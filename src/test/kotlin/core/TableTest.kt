@@ -5,6 +5,7 @@ import core.constraint.PrimaryKey
 import core.constraint.Unique
 import core.table.TableColumn
 import engine.Database
+import operator.condition.Condition.eq
 import trans.Transaction
 import trans.transaction
 import java.io.File
@@ -64,16 +65,21 @@ class TableTest {
         transaction {
 
             val list = listOf(
-                Student("下北泽", 1919810, true), Student("野兽先辈", 1145104, true), Student("昏睡红茶", 11451344, true)
+                Student("嗯嗯嗯", 1919810, false),
+                Student("啊啊啊", 1145104, false),
+                Student("啊啊啊啊", 11451344, true)
             )
 
             t.create().end()
 
             t.insert().add(list).end()
 
-            val ans = t.select().res()
-            assert(ans == list)
+            assert(t.select().res() == list)
 
+            assert(
+                t.select().where("name" eq "啊啊啊").res()
+                        == list.filter { it.name=="啊啊啊" }
+            )
         }
 
     }
