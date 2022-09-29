@@ -34,12 +34,14 @@ class QueryOperator<T : Any>(
     }
 
 
-    fun asc() {
+    fun asc(): QueryOperator<T> {
         ascOrDesc = "ASC"
+        return this
     }
 
-    fun desc() {
+    fun desc(): QueryOperator<T> {
         ascOrDesc = "DESC"
+        return this
     }
 
     fun res(): List<T> {
