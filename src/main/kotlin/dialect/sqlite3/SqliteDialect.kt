@@ -105,7 +105,16 @@ object SqliteDialect : Dialect {
     }
 
     override fun generateUpdateSQL(op: UpdateOperator): PreparedStatement {
-        TODO("Not yet implemented")
+
+        val whereSubSentence =
+            if (op.whereCondition.isNotBlank()) {
+                "WHERE ${op.whereCondition}"
+            } else {
+                ""
+            }
+
+        val sql = "UPDATE `${op.tableName}` SET ${op.replaceCondition}  $whereSubSentence"
+        return Database.preparedStatement(sql)
     }
 
     override fun generateDeleteSQL(op: DeleteOperator): PreparedStatement {

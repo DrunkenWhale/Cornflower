@@ -84,10 +84,17 @@ class TableTest {
             )
 
             assert(
-                t.select().where(("name" eq "嗯嗯嗯") or ("name" eq "啊啊啊") and  ("age" eq 1919810)).res()
+                t.select().where(("name" eq "嗯嗯嗯") or ("name" eq "啊啊啊") and ("age" eq 1919810)).res()
                         == list.filter { it.name == "嗯嗯嗯" || it.name == "啊啊啊" && it.age == 1919810 }
             )
 
+            t.update()
+                .replace("sex" eq true)
+                .end()
+
+            assert(
+                t.select().where("sex" eq true).res().size == 3
+            )
         }
 
     }

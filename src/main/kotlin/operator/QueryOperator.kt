@@ -57,6 +57,7 @@ class QueryOperator<T : Any>(
 
     override fun end() {
         val statement = GlobalDialect.dialect.generateQuerySQL(this)
+        GlobalLogInstance.log.infoPrepareStatement(statement)
         Database.executePrepareStatement(statement)
     }
 

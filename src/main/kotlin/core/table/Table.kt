@@ -3,6 +3,7 @@ package core.table
 import operator.CreateOperator
 import operator.InsertOperator
 import operator.QueryOperator
+import operator.UpdateOperator
 
 class Table<T : Any>(
     val metaData: TableMetaData<T>
@@ -21,8 +22,8 @@ class Table<T : Any>(
         return InsertOperator(metaData.tableName, metaData.columns)
     }
 
-    fun update() {
-
+    fun update(): UpdateOperator {
+        return UpdateOperator(metaData.tableName)
     }
 
     fun delete() {
