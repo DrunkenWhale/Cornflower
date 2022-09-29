@@ -5,6 +5,8 @@ import core.constraint.PrimaryKey
 import core.constraint.Unique
 import core.table.TableColumn
 import engine.Database
+import operator.condition.Condition.or
+import operator.condition.Condition.and
 import operator.condition.Condition.eq
 import trans.Transaction
 import trans.transaction
@@ -78,8 +80,14 @@ class TableTest {
 
             assert(
                 t.select().where("name" eq "啊啊啊").res()
-                        == list.filter { it.name=="啊啊啊" }
+                        == list.filter { it.name == "啊啊啊" }
             )
+
+            assert(
+                t.select().where(("name" eq "嗯嗯嗯") or ("name" eq "啊啊啊") and  ("age" eq 1919810)).res()
+                        == list.filter { it.name == "嗯嗯嗯" || it.name == "啊啊啊" && it.age == 1919810 }
+            )
+
         }
 
     }
