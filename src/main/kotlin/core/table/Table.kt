@@ -27,4 +27,10 @@ class Table<T : Any>(
         return DeleteOperator(metaData.tableName)
     }
 
+
+    // join Operator
+    infix fun <F : Any> join(table: Table<F>) {
+
+    }
+
 }
