@@ -55,21 +55,21 @@ object Database {
         connection.close()
     }
 
-    internal fun statement(): Statement {
-        return connection.createStatement()
-    }
+//    internal fun statement(): Statement {
+//        return connection.createStatement()
+//    }
 
     internal fun preparedStatement(sql: String): PreparedStatement {
         return connection.prepareStatement(sql)
     }
 
-    internal fun execute(sql: String): Boolean {
-        return statement().execute(sql)
-    }
-
-    internal fun executeQuery(sql: String): ResultSet? {
-        return statement().executeQuery(sql)
-    }
+//    internal fun execute(sql: String): Boolean {
+//        return statement().execute(sql)
+//    }
+//
+//    internal fun executeQuery(sql: String): ResultSet? {
+//        return statement().executeQuery(sql)
+//    }
 
     internal fun executePrepareStatementQuery(preparedStatement: PreparedStatement): ResultSet {
         return preparedStatement.executeQuery()!!
