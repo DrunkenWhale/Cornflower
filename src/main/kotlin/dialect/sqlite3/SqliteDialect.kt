@@ -118,7 +118,15 @@ object SqliteDialect : Dialect {
     }
 
     override fun generateDeleteSQL(op: DeleteOperator): PreparedStatement {
-        TODO("Not yet implemented")
+        val whereSubSentence =
+            if (op.whereCondition.isNotBlank()) {
+                "WHERE ${op.whereCondition}"
+            } else {
+                ""
+            }
+
+        val sql = "DELETE FROM `${op.tableName}` $whereSubSentence"
+        return Database.preparedStatement(sql)
     }
 
     override fun readResultSet(resultSet: ResultSet, columnList: List<TableColumn>): List<List<Any>> {
