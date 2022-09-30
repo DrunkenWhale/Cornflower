@@ -11,8 +11,6 @@ import kotlin.math.min
 
 
 object SqliteDialect : Dialect {
-    //TODO
-    //write test to this object
 
     override fun generateCreateSQL(op: CreateOperator): PreparedStatement {
 

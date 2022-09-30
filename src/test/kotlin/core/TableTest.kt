@@ -99,6 +99,30 @@ class TableTest {
 
     }
 
+    @Test
+    fun testCRUD() {
+        Database.connect("jdbc:sqlite:$sqliteDatabaseName")
+
+        val studentList = listOf(
+            Student("114514", 1919810, true),
+            Student("下北泽の昏睡红茶", 114514, false),
+        )
+
+        val table = table(Student::class)
+
+        transaction {
+            table.create().end()
+        }
+
+        transaction {
+            table.insert().add(studentList).end()
+            assert(table.select().res() == studentList)
+            table.update().replace("sex" eq true).end()
+            assert(table.select().res().none { !it.gender })
+            table.delete().end()
+            assert(table.select().res().isEmpty())
+        }
+    }
 
     fun removeTestDB() {
         Files.delete(Path.of(System.getProperty("user.dir") + File.separator + "test.db"))
