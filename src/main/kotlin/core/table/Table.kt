@@ -1,9 +1,6 @@
 package core.table
 
-import operator.CreateOperator
-import operator.InsertOperator
-import operator.QueryOperator
-import operator.UpdateOperator
+import operator.*
 
 class Table<T : Any>(
     val metaData: TableMetaData<T>
@@ -26,8 +23,8 @@ class Table<T : Any>(
         return UpdateOperator(metaData.tableName)
     }
 
-    fun delete() {
-
+    fun delete(): DeleteOperator {
+        return DeleteOperator(metaData.tableName)
     }
 
 }
