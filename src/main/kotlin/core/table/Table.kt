@@ -27,10 +27,29 @@ class Table<T : Any>(
         return DeleteOperator(metaData.tableName)
     }
 
-
     // join Operator
-    infix fun <F : Any> join(table: Table<F>) {
+    infix fun innerJoin(table: Table<*>): JoinOperator {
+        return join(table, "INNER JOIN")
+    }
 
+    infix fun leftJoin(table: Table<*>): JoinOperator {
+        return join(table, "LEFT JOIN")
+
+    }
+
+    infix fun rightJoin(table: Table<*>): JoinOperator {
+        return join(table, "RIGHT JOIN")
+
+    }
+
+    private fun join(table: Table<*>, joinType: String): JoinOperator {
+        return JoinOperator(
+            this.metaData.tableName,
+            table.metaData.tableName,
+            this.metaData.columns,
+            table.metaData.columns,
+            join = joinType
+        )
     }
 
 }

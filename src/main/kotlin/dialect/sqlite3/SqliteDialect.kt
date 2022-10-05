@@ -71,7 +71,11 @@ object SqliteDialect : Dialect {
 
         val ascOrDesc = op.ascOrDesc
 
-        val sql = "SELECT * FROM `${op.tableName}` $whereSubSentence $groupBySubSentence $orderBySubSentence $ascOrDesc"
+        val sql = "SELECT * FROM `${op.tableName}` " +
+                "$whereSubSentence " +
+                "$groupBySubSentence " +
+                "$orderBySubSentence " +
+                "$ascOrDesc "
         return Database.preparedStatement(sql)
     }
 
@@ -125,6 +129,74 @@ object SqliteDialect : Dialect {
 
         val sql = "DELETE FROM `${op.tableName}` $whereSubSentence"
         return Database.preparedStatement(sql)
+    }
+
+    override fun generateJoinSQL(op: JoinOperator): PreparedStatement {
+
+        val onSubSentence =
+            if (op.on.isNotBlank()) {
+                "ON ${op.on}"
+            } else {
+                ""
+            }
+
+        val whereSubSentence =
+            if (op.whereCondition.isNotBlank()) {
+                "WHERE ${op.whereCondition}"
+            } else {
+                ""
+            }
+
+        val groupBySubSentence =
+            if (op.groupByColumnName.isNotBlank()) {
+                "GROUP BY `${op.groupByColumnName}`"
+            } else {
+                ""
+            }
+
+        val orderBySubSentence =
+            if (op.orderByColumnName.isNotBlank()) {
+                "ORDER BY `${op.orderByColumnName}`"
+            } else {
+                ""
+            }
+
+        val ascOrDesc = op.ascOrDesc
+
+        assert(0 != op.leftTableColumnList.size + op.rightColumnList.size)
+
+        val leftSelectColumnStringList =
+            op.leftColumnList.map {
+                "`${op.leftTableName}`.`${it.name}`"
+            }.fold("") { str, s -> "$str, $s" }
+
+        val rightSelectColumnStringList =
+            op.rightColumnList.map {
+                "`${op.rightTableName}`.`${it.name}`"
+            }.fold("") { str, s -> "$str, $s" }
+
+        val selectColumnString =
+            if (op.leftColumnList.isEmpty()) {
+                rightSelectColumnStringList.substring(1)
+            } else {
+                leftSelectColumnStringList.substring(1) +
+                        if (op.rightColumnList.isNotEmpty()) {
+                            ", $rightSelectColumnStringList"
+                        } else {
+                            ""
+                        }
+            }
+
+        val sql =
+            "SELECT $selectColumnString" +
+                    " FROM `${op.leftTableName}` ${op.join} `${op.rightTableName}` " +
+                    "$onSubSentence " +
+                    "$whereSubSentence " +
+                    "$groupBySubSentence " +
+                    "$orderBySubSentence " +
+                    "$ascOrDesc "
+        return Database.preparedStatement(sql)
+
     }
 
     override fun readResultSet(resultSet: ResultSet, columnList: List<TableColumn>): List<List<Any>> {

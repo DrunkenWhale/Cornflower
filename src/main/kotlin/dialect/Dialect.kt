@@ -21,11 +21,12 @@ interface Dialect {
 
     fun generateDeleteSQL(op: DeleteOperator): PreparedStatement
 
+    fun generateJoinSQL(op: JoinOperator): PreparedStatement
+
     /**
      * @return List<Int, SQL Enum Type, Value>
      * */
     fun readResultSet(resultSet: ResultSet, columnList: List<TableColumn>): List<List<Any>>
-
 
     fun registerToGlobal() {
         GlobalDialect.dialect = this
